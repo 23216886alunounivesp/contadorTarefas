@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Decisão Final</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f5f5f5;
+        }
+        #container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        #contagem {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin: 25px 0;
+            font-weight: bold;
+        }
+        .expirou {
+            color: #e74c3c;
+            font-weight: bold;
+            padding: 20px;
+            background-color: #ffe6e6;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Tarefa Única:</h1>
+        <h2>Decidir problema que será trabalhado</h2>
+        
+        <div id="contagem"></div>
+        <div id="mensagem"></div>
+    </div>
+
+    <script>
+        // ALTERE A DATA FINAL AQUI (formato: ANO-MÊS-DIA THORA:MINUTO:SEGUNDO)
+        const deadlineDate = new Date('2024-03-01T23:59:59'); // Exemplo: 31/12/2024 às 23:59:59
+        
+        function atualizarContagem() {
+            const agora = new Date();
+            const diferenca = deadlineDate - agora;
+
+            if (diferenca > 0) {
+                const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+                const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+                document.getElementById('contagem').innerHTML = 
+                    `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+            } else {
+                document.getElementById('contagem').innerHTML = '';
+                document.getElementById('mensagem').innerHTML = 
+                    '<div class="expirou">O prazo finalizou! Decisão deve ser tomada imediatamente!</div>';
+                clearInterval(intervalo);
+            }
+        }
+
+        // Inicia a contagem imediatamente
+        let intervalo = setInterval(atualizarContagem, 1000);
+        atualizarContagem(); // Executa a primeira vez imediatamente
+    </script>
+</body>
+</html>
